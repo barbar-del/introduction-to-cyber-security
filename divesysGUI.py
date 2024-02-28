@@ -3,6 +3,9 @@ import Diver_Club
 import Diver
 import Equipment
 
+#create the base of hte diver club
+diver_club = Diver_Club.Diver_Club("boomChakaLaka")
+
 #main window initialization
 window_height = 600
 window_width = 400

@@ -5,7 +5,7 @@ class Rank(Enum):
     Intermediate = 2
     Advanced = 3
     Expert = 4
-
+#the diver class get an id, name and rank, check if the rank is an instance of the Rank enum and if so  crate the diver
 class Diver:
     def __init__(self, name, id, diver_rank):
         self.name = name
