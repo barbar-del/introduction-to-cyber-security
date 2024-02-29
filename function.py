@@ -1,6 +1,6 @@
 import Diver_Club
 
-def get_all_divers_names_and_id(club):
+def get_all_divers_names_and_id(club:Diver_Club):
   #  Return a list of names and IDs of all divers in the club.
     return [(diver.name, diver.id) for diver in club.divers]
 
