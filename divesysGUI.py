@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import pandas as pd
 import Diver_Club
 import Diver
 import Equipment
@@ -121,6 +122,9 @@ def Inventory_page():
 
     inventory_page_fm.pack(fill=tk.BOTH,expand=True)
 
+    upload_table('InventoryXL.csv',table)
+
+
 def Divers_page():
     divers_page_fm = tk.Frame(main_frame)
     divers_page_lb = tk.Label(divers_page_fm,text="Divers Page",
@@ -139,6 +143,7 @@ def Divers_page():
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
 
+
     # Create a table
     table = ttk.Treeview(divers_page_fm)
     table['columns'] = ('ID', 'Name','Rank')
@@ -154,9 +159,11 @@ def Divers_page():
 
     divers_page_fm.pack(fill=tk.BOTH,expand=True)
 
+    upload_table('DiversXL.csv',table)
+
 def Instructors_page():
     Instructors_page_fm = tk.Frame(main_frame)
-    Instructors_page_lb = tk.Label(Instructors_page_fm,text="Divers Page",
+    Instructors_page_lb = tk.Label(Instructors_page_fm,text="Instructors Page",
                             font=('Arial',25),fg='#0097e8')
     label_width = Instructors_page_lb.winfo_reqwidth()
     Instructors_page_lb.pack(pady=20,padx=(root_padx_left,0))
@@ -188,6 +195,10 @@ def Instructors_page():
     table.pack(pady=20, padx = (root_padx_left,0))
 
     Instructors_page_fm.pack(fill=tk.BOTH,expand=True)
+
+    upload_table('InstructorsXL.csv',table)
+
+
 
 def Dives_page():
     dives_page_fm = tk.Frame(main_frame)
@@ -232,5 +243,26 @@ def Dives_page():
 
     dives_page_fm.pack(fill=tk.BOTH,expand=True)
 
+    upload_table('DivesXL.csv',table)
+
+def upload_table(file_path, table):
+    try:
+        print(file_path)
+        # Read the Excel file into a DataFrame
+        df = pd.read_csv(file_path)
+        df = df.dropna()
+        if 'Quantity' in df.columns:
+            df['Quantity'] = df['Quantity'].astype(int)
+        print(df)
+        # Clear the existing data in the table
+        table.delete(*table.get_children())
+
+        # Insert each row from the DataFrame into the table
+        for index, row in df.iterrows():
+            table.insert('', 'end', values=row.tolist())
+            
+        print("Data uploaded successfully.")
+    except Exception as e:
+        print("Error uploading data:", str(e))
 
 root.mainloop()
