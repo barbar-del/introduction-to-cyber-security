@@ -58,7 +58,7 @@ def toggle_menu():
                           command=lambda:switch(page=Dives_page))
     dives_btn.place(x=20, y=240)
 
-    
+
 
 
 
@@ -116,9 +116,12 @@ def Inventory_page():
     table.column('Item', anchor=tk.CENTER, width=150)
     table.column('Quantity', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.W)
-    table.heading('Item', text='Item', anchor=tk.CENTER)
-    table.heading('Quantity', text='Quantity', anchor=tk.CENTER)
+    table.heading("Item", text="Item", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Item', False))
+    # table.heading('Quantity', text='Quantity', anchor=tk.CENTER)
+    table.heading("Quantity", text="Quantity", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Quantity', False))
     table.pack(pady=20, padx = (root_padx_left ,0) )
+
+
 
     inventory_page_fm.pack(fill=tk.BOTH,expand=True)
 
@@ -152,9 +155,12 @@ def Divers_page():
     table.column('Name', anchor=tk.CENTER, width=150)
     table.column('Rank', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.W)
-    table.heading('ID',text = 'ID', anchor=tk.CENTER)
-    table.heading('Name',text = 'Name', anchor=tk.CENTER)
-    table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
+    # table.heading('ID',text = 'ID', anchor=tk.CENTER)
+    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'ID', False))
+    # table.heading('Name',text = 'Name', anchor=tk.CENTER)
+    table.heading("Name", text="Name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Name', False))
+    # table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
+    table.heading("Rank", text="Rank", anchor=tk.CENTER,command=lambda: sort_by_quantity(table, 'Rank', False))
     table.pack(pady=20, padx = (root_padx_left,0))
 
     divers_page_fm.pack(fill=tk.BOTH,expand=True)
@@ -188,10 +194,14 @@ def Instructors_page():
     table.column('Rank', anchor=tk.CENTER, width=100)
     table.column('Company', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.W)
-    table.heading('ID',text = 'ID', anchor=tk.CENTER)
-    table.heading('Name',text = 'Name', anchor=tk.CENTER)
-    table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
-    table.heading('Company',text = 'Company', anchor=tk.CENTER)
+    # table.heading('ID',text = 'ID', anchor=tk.CENTER)
+    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'ID', False))
+    # table.heading('Name',text = 'Name', anchor=tk.CENTER)
+    table.heading("Name", text="Name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Name', False))
+    # table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
+    table.heading("Rank", text="Rank", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Rank', False))
+    # table.heading('Company',text = 'Company', anchor=tk.CENTER)
+    table.heading("Company", text="Company", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Company', False))
     table.pack(pady=20, padx = (root_padx_left,0))
 
     Instructors_page_fm.pack(fill=tk.BOTH,expand=True)
@@ -231,13 +241,20 @@ def Dives_page():
     table.column('Club', anchor=tk.CENTER, width=100)
     table.column('Equipment', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.CENTER)
-    table.heading('Dive ID', text='Dive ID', anchor=tk.CENTER)
-    table.heading('Instructor name', text='Instructor name', anchor=tk.CENTER)
-    table.heading('Instructor ID', text='Instructor ID', anchor=tk.CENTER)
-    table.heading('Depth', text='Depth', anchor=tk.CENTER)
-    table.heading('Location', text='Location', anchor=tk.CENTER)
-    table.heading('Club', text='Club', anchor=tk.CENTER)
-    table.heading('Equipment', text='Equipment', anchor=tk.CENTER)
+    # table.heading('Dive ID', text='Dive ID', anchor=tk.CENTER)
+    table.heading("Dive ID", text="Dive ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Dive ID', False))
+    # table.heading('Instructor name', text='Instructor name', anchor=tk.CENTER)
+    table.heading("Instructor name", text="Instructor name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Instructor name', False))
+    # table.heading('Instructor ID', text='Instructor ID', anchor=tk.CENTER)
+    table.heading("Instructor ID", text="Instructor ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Instructor ID', False))
+    # table.heading('Depth', text='Depth', anchor=tk.CENTER)
+    table.heading("Depth", text="Depth", anchor=tk.CENTER,command=lambda: sort_by_quantity(table, 'Depth', False))
+    # table.heading('Location', text='Location', anchor=tk.CENTER)
+    table.heading("Location", text="Location", anchor=tk.CENTER,command=lambda: sort_by_name(table, 'Location', False))
+    # table.heading('Club', text='Club', anchor=tk.CENTER)
+    table.heading("Club", text="Club", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Club', False))
+    # table.heading('Equipment', text='Equipment', anchor=tk.CENTER)
+    table.heading("Equipment", text="Equipment", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Equipment', False))
 
     table.pack(pady=20, padx = (root_padx_left,0))
 
@@ -264,5 +281,32 @@ def upload_table(file_path, table):
         print("Data uploaded successfully.")
     except Exception as e:
         print("Error uploading data:", str(e))
+
+# Function to sort the items in the treeview
+def sort_by_quantity(tree, col, reverse):
+    # Retrieve the list of items in the treeview
+    l = [(tree.set(k, col), k) for k in tree.get_children('')]
+    # Sort the list in place, converting values to integers for proper numerical sorting
+    l.sort(key=lambda t: int(t[0]), reverse=reverse)
+
+    # Rearrange the items in sorted order
+    for index, (_, k) in enumerate(l):
+        tree.move(k, '', index)
+
+    # Reverse the sorting order for the next time
+    tree.heading(col, command=lambda: sort_by_quantity(tree, col, not reverse))
+
+def sort_by_name(tree, col, reverse):
+    # Retrieve the list of items in the treeview
+    l = [(tree.set(k, col), k) for k in tree.get_children('')]
+    # Sort the list in place, this time without converting to integers since we're dealing with strings
+    l.sort(key=lambda t: t[0], reverse=reverse)
+
+    # Rearrange the items in sorted order
+    for index, (_, k) in enumerate(l):
+        tree.move(k, '', index)
+
+    # Reverse the sorting order for the next time
+    tree.heading(col, command=lambda: sort_by_name(tree, col, not reverse))
 
 root.mainloop()
