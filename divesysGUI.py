@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-import pandas as pd
+
 import Diver_Club
 import Diver
 import Equipment
+
+from function import *
+
 
 #create the base of hte diver club
 diver_club = Diver_Club.Diver_Club("boomChakaLaka")
@@ -100,11 +103,11 @@ def Inventory_page():
     
     button_frame = tk.Frame(inventory_page_fm)
     button_frame.pack()
-    add_button = tk.Button(button_frame, text="Add Item", relief=tk.RAISED, borderwidth=2, 
+    add_button = tk.Button(button_frame, text="Add Item", relief=tk.RAISED, borderwidth=2,
                     background="#0097e8", foreground="white", font=('Arial', 14),
-                    highlightthickness=0)
+                    highlightthickness=0, command=lambda: open_add_item_window(root, table))
     add_button.pack(side=tk.LEFT, padx=(root_padx_left,20))  # Adjust padx as needed
-    delete_button = tk.Button(button_frame, text="Delete Item", relief=tk.RAISED, borderwidth=2, 
+    delete_button = tk.Button(button_frame, text="Delete Item", relief=tk.RAISED, borderwidth=2,
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
@@ -118,10 +121,8 @@ def Inventory_page():
     table.heading('#0', text='', anchor=tk.W)
     table.heading("Item", text="Item", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Item', False))
     # table.heading('Quantity', text='Quantity', anchor=tk.CENTER)
-    table.heading("Quantity", text="Quantity", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Quantity', False))
+    table.heading("Quantity", text="Quantity", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'Quantity', False))
     table.pack(pady=20, padx = (root_padx_left ,0) )
-
-
 
     inventory_page_fm.pack(fill=tk.BOTH,expand=True)
 
@@ -139,7 +140,7 @@ def Divers_page():
     button_frame.pack()
     add_button = tk.Button(button_frame, text="Add Diver", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
-                    highlightthickness=0)
+                    highlightthickness=0, command=lambda: open_add_diver_window(root, table))
     add_button.pack(side=tk.LEFT, padx=(root_padx_left,20))  # Adjust padx as needed
     delete_button = tk.Button(button_frame, text="Delete Diver", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
@@ -156,11 +157,11 @@ def Divers_page():
     table.column('Rank', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.W)
     # table.heading('ID',text = 'ID', anchor=tk.CENTER)
-    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'ID', False))
+    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'ID', False))
     # table.heading('Name',text = 'Name', anchor=tk.CENTER)
     table.heading("Name", text="Name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Name', False))
     # table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
-    table.heading("Rank", text="Rank", anchor=tk.CENTER,command=lambda: sort_by_quantity(table, 'Rank', False))
+    table.heading("Rank", text="Rank", anchor=tk.CENTER,command=lambda: sort_by_number(table, 'Rank', False))
     table.pack(pady=20, padx = (root_padx_left,0))
 
     divers_page_fm.pack(fill=tk.BOTH,expand=True)
@@ -178,7 +179,7 @@ def Instructors_page():
     button_frame.pack()
     add_button = tk.Button(button_frame, text="Add Instructor", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
-                    highlightthickness=0)
+                    highlightthickness=0, command=lambda: open_add_instructor_window(root, table))
     add_button.pack(side=tk.LEFT, padx=(root_padx_left,20))  # Adjust padx as needed
     delete_button = tk.Button(button_frame, text="Delete Instructor", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
@@ -195,11 +196,11 @@ def Instructors_page():
     table.column('Company', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.W)
     # table.heading('ID',text = 'ID', anchor=tk.CENTER)
-    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'ID', False))
+    table.heading("ID", text="ID", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'ID', False))
     # table.heading('Name',text = 'Name', anchor=tk.CENTER)
     table.heading("Name", text="Name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Name', False))
     # table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
-    table.heading("Rank", text="Rank", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Rank', False))
+    table.heading("Rank", text="Rank", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'Rank', False))
     # table.heading('Company',text = 'Company', anchor=tk.CENTER)
     table.heading("Company", text="Company", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Company', False))
     table.pack(pady=20, padx = (root_padx_left,0))
@@ -222,7 +223,7 @@ def Dives_page():
     button_frame.pack()
     add_button = tk.Button(button_frame, text="Add Dive", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
-                    highlightthickness=0)
+                    highlightthickness=0, command=lambda: open_add_dive_window(root, table))
     add_button.pack(side=tk.LEFT, padx=(root_padx_left,20))  # Adjust padx as needed
     delete_button = tk.Button(button_frame, text="Delete Dive", relief=tk.RAISED, borderwidth=2, 
                     background="#0097e8", foreground="white", font=('Arial', 14),
@@ -242,13 +243,13 @@ def Dives_page():
     table.column('Equipment', anchor=tk.CENTER, width=100)
     table.heading('#0', text='', anchor=tk.CENTER)
     # table.heading('Dive ID', text='Dive ID', anchor=tk.CENTER)
-    table.heading("Dive ID", text="Dive ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Dive ID', False))
+    table.heading("Dive ID", text="Dive ID", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'Dive ID', False))
     # table.heading('Instructor name', text='Instructor name', anchor=tk.CENTER)
     table.heading("Instructor name", text="Instructor name", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Instructor name', False))
     # table.heading('Instructor ID', text='Instructor ID', anchor=tk.CENTER)
-    table.heading("Instructor ID", text="Instructor ID", anchor=tk.CENTER, command=lambda: sort_by_quantity(table, 'Instructor ID', False))
+    table.heading("Instructor ID", text="Instructor ID", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'Instructor ID', False))
     # table.heading('Depth', text='Depth', anchor=tk.CENTER)
-    table.heading("Depth", text="Depth", anchor=tk.CENTER,command=lambda: sort_by_quantity(table, 'Depth', False))
+    table.heading("Depth", text="Depth", anchor=tk.CENTER,command=lambda: sort_by_number(table, 'Depth', False))
     # table.heading('Location', text='Location', anchor=tk.CENTER)
     table.heading("Location", text="Location", anchor=tk.CENTER,command=lambda: sort_by_name(table, 'Location', False))
     # table.heading('Club', text='Club', anchor=tk.CENTER)
@@ -262,51 +263,8 @@ def Dives_page():
 
     upload_table('DivesXL.csv',table)
 
-def upload_table(file_path, table):
-    try:
-        print(file_path)
-        # Read the Excel file into a DataFrame
-        df = pd.read_csv(file_path)
-        df = df.dropna()
-        if 'Quantity' in df.columns:
-            df['Quantity'] = df['Quantity'].astype(int)
-        print(df)
-        # Clear the existing data in the table
-        table.delete(*table.get_children())
 
-        # Insert each row from the DataFrame into the table
-        for index, row in df.iterrows():
-            table.insert('', 'end', values=row.tolist())
-            
-        print("Data uploaded successfully.")
-    except Exception as e:
-        print("Error uploading data:", str(e))
 
-# Function to sort the items in the treeview
-def sort_by_quantity(tree, col, reverse):
-    # Retrieve the list of items in the treeview
-    l = [(tree.set(k, col), k) for k in tree.get_children('')]
-    # Sort the list in place, converting values to integers for proper numerical sorting
-    l.sort(key=lambda t: int(t[0]), reverse=reverse)
 
-    # Rearrange the items in sorted order
-    for index, (_, k) in enumerate(l):
-        tree.move(k, '', index)
-
-    # Reverse the sorting order for the next time
-    tree.heading(col, command=lambda: sort_by_quantity(tree, col, not reverse))
-
-def sort_by_name(tree, col, reverse):
-    # Retrieve the list of items in the treeview
-    l = [(tree.set(k, col), k) for k in tree.get_children('')]
-    # Sort the list in place, this time without converting to integers since we're dealing with strings
-    l.sort(key=lambda t: t[0], reverse=reverse)
-
-    # Rearrange the items in sorted order
-    for index, (_, k) in enumerate(l):
-        tree.move(k, '', index)
-
-    # Reverse the sorting order for the next time
-    tree.heading(col, command=lambda: sort_by_name(tree, col, not reverse))
 
 root.mainloop()
