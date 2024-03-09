@@ -181,3 +181,9 @@ def upload_table(file_path, table):
         print("Data uploaded successfully.")
     except Exception as e:
         print("Error uploading data:", str(e))
+
+
+def on_item_select(event, table, delete_button):
+    selected = table.selection()
+    if selected:  # If there is at least one selected item
+        delete_button.config(state='normal')  # Enable the delete button

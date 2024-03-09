@@ -46,6 +46,7 @@ def toggle_menu():
                               command=lambda:switch(page=Inventory_page))
     inventory_btn.place(x=20, y=60)
 
+
     divers_btn = tk.Button(toggle_menu_fm, text='Divers', font=('Bold', 20),
                          bd=0, bg='#158aff', fg='white',
                            command=lambda:switch(page=Divers_page))
@@ -111,6 +112,7 @@ def Inventory_page():
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
+    delete_button.config(state='disabled')
 
     # Create a table
     table = ttk.Treeview(inventory_page_fm)
@@ -123,6 +125,7 @@ def Inventory_page():
     # table.heading('Quantity', text='Quantity', anchor=tk.CENTER)
     table.heading("Quantity", text="Quantity", anchor=tk.CENTER, command=lambda: sort_by_number(table, 'Quantity', False))
     table.pack(pady=20, padx = (root_padx_left ,0) )
+    table.bind('<<TreeviewSelect>>', lambda event: on_item_select(event, table, delete_button))
 
     inventory_page_fm.pack(fill=tk.BOTH,expand=True)
 
@@ -146,7 +149,7 @@ def Divers_page():
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
-
+    delete_button.config(state='disabled')
 
     # Create a table
     table = ttk.Treeview(divers_page_fm)
@@ -163,6 +166,7 @@ def Divers_page():
     # table.heading('Rank',text = 'Rank', anchor=tk.CENTER)
     table.heading("Rank", text="Rank", anchor=tk.CENTER,command=lambda: sort_by_number(table, 'Rank', False))
     table.pack(pady=20, padx = (root_padx_left,0))
+    table.bind('<<TreeviewSelect>>', lambda event: on_item_select(event, table, delete_button))
 
     divers_page_fm.pack(fill=tk.BOTH,expand=True)
 
@@ -185,6 +189,7 @@ def Instructors_page():
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
+    delete_button.config(state='disabled')
 
     # Create a table
     table = ttk.Treeview(Instructors_page_fm)
@@ -204,6 +209,7 @@ def Instructors_page():
     # table.heading('Company',text = 'Company', anchor=tk.CENTER)
     table.heading("Company", text="Company", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Company', False))
     table.pack(pady=20, padx = (root_padx_left,0))
+    table.bind('<<TreeviewSelect>>', lambda event: on_item_select(event, table, delete_button))
 
     Instructors_page_fm.pack(fill=tk.BOTH,expand=True)
 
@@ -229,6 +235,7 @@ def Dives_page():
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
+    delete_button.config(state='disabled')
 
     # Create a table
     table = ttk.Treeview(dives_page_fm)
@@ -256,8 +263,8 @@ def Dives_page():
     table.heading("Club", text="Club", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Club', False))
     # table.heading('Equipment', text='Equipment', anchor=tk.CENTER)
     table.heading("Equipment", text="Equipment", anchor=tk.CENTER, command=lambda: sort_by_name(table, 'Equipment', False))
-
     table.pack(pady=20, padx = (root_padx_left,0))
+    table.bind('<<TreeviewSelect>>', lambda event: on_item_select(event, table, delete_button))
 
     dives_page_fm.pack(fill=tk.BOTH,expand=True)
 
