@@ -113,6 +113,7 @@ def Inventory_page():
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
     delete_button.config(state='disabled')
+    delete_button.config(state='disabled', command=lambda: delete_selected_item(table, 'InventoryXL.csv'))
 
     # Create a table
     table = ttk.Treeview(inventory_page_fm)
@@ -149,7 +150,7 @@ def Divers_page():
                     background="#0097e8", foreground="white", font=('Arial', 14),
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
-    delete_button.config(state='disabled')
+    delete_button.config(state='disabled', command=lambda: delete_selected_item(table, 'DiversXL.csv'))
 
     # Create a table
     table = ttk.Treeview(divers_page_fm)
@@ -169,6 +170,7 @@ def Divers_page():
     table.bind('<<TreeviewSelect>>', lambda event: on_item_select(event, table, delete_button))
 
     divers_page_fm.pack(fill=tk.BOTH,expand=True)
+
 
     upload_table('DiversXL.csv',table)
 
@@ -190,6 +192,7 @@ def Instructors_page():
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
     delete_button.config(state='disabled')
+    delete_button.config(state='disabled', command=lambda: delete_selected_item(table, 'InstructorsXL.csv'))
 
     # Create a table
     table = ttk.Treeview(Instructors_page_fm)
@@ -236,6 +239,7 @@ def Dives_page():
                     highlightthickness=0)
     delete_button.pack(side=tk.LEFT, padx=0)  # Adjust padx as needed
     delete_button.config(state='disabled')
+    delete_button.config(state='disabled', command=lambda: delete_selected_item(table, 'DivesXL.csv'))
 
     # Create a table
     table = ttk.Treeview(dives_page_fm)

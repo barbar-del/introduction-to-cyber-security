@@ -187,3 +187,25 @@ def on_item_select(event, table, delete_button):
     selected = table.selection()
     if selected:  # If there is at least one selected item
         delete_button.config(state='normal')  # Enable the delete button
+
+
+def update_excel_file(selected_values, path):
+    data = pd.read_csv(path)  # Load the entire Excel file into a DataFrame
+
+    for item_values in selected_values:
+        unique_identifier = item_values[0]  # Assume the first value is a unique ID, adjust as necessary
+        # Make sure the types match (e.g., both are strings or both are integers)
+        data = data[data.iloc[:, 0].astype(str) != str(unique_identifier)]
+
+    # Save the updated DataFrame back to the Excel file only once, after all deletions
+    data.to_csv(path, index=False)
+
+
+def delete_selected_item(table, path):
+    selected_items = table.selection()  # Get all selected items
+    selected_values = [table.item(item, 'values') for item in selected_items]
+
+    for selected_item in selected_items:
+        table.delete(selected_item)  # Delete items from the Treeview
+
+    update_excel_file(selected_values, path)  # Update Excel file outside the loop
