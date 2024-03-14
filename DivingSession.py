@@ -1,24 +1,58 @@
 import Instructor
+import Diver
+import Equipment
 
-# The DivingSession class is used to represent a diving session, which is a gathering of divers and instructors at a specific location to dive to a certain depth.
-# The class has the following attributes: diving_depth, instructor_name, instructor_id, location, diver_club, and registered_equipment.
-#registered_equipment is a list of Register_equipment instances, each of which holds a participant (a diver or an instructor) and the equipment they have registered for the session.
-#add stitic int to the class to keep track of the number of sessions created
 class DivingSession:
+    # Static variable to keep track of the next ID for a new DivingSession instance
     static_id = 0
-    def __init__(self, diving_depth, instructor: Instructor, location, divers):
+
+    def __init__(self, diving_depth, instructor: Instructor.Instructor, location, club_equipment):
+        # Assign a unique ID to the new DivingSession instance
         self.id = DivingSession.static_id
-        self.static_id += 1
+        DivingSession.static_id += 1
+
         self.diving_depth = diving_depth
         self.instructor = instructor
         self.location = location
-        self.divers = divers 
+        self.divers = []  # List to store divers registered for this diving session
+        self.registered_equipment = []  # List to store equipment registered for this diving session
+        self.club_equipment = club_equipment  # Reference to the club's equipment list
 
-#add a participant to the session, check if the participant is already in the session's registered equipment, if not check if the participant exists in the Diver_Club.
-# If the participant is found, create a new Register_equipment instance and add it to the session's registered_equipment list.
+    def add_diver(self, diver: Diver.Diver):
+        # Add a diver to the diving session if not already added
+        if diver not in self.divers:
+            self.divers.append(diver)
 
-    def add_participant(self, participant_id, equipment):
-        return
+    def check_instructor_knowledge(self):
+        # Check if the instructor knows the location for the diving session
+        if self.location not in self.instructor.locations:
+            raise Exception("Instructor does not know the location. Please change the instructor or the location.")
 
-    def add_instructor(self, participant_id):
-        return
+    def add_equipment(self, equipment_id, quantity):
+        # Find the equipment in the club's equipment list
+        club_equipment = next((eq for eq in self.club_equipment if eq.ID == equipment_id), None)
+        if club_equipment and club_equipment.quantity >= quantity:
+            # Check if the equipment ID already exists in the session's equipment list
+            session_equipment = next((eq for eq in self.registered_equipment if eq.ID == equipment_id), None)
+            if session_equipment:
+                # If the equipment exists in the session, increase its quantity
+                session_equipment.quantity += quantity
+            else:
+                # If the equipment does not exist in the session, create a new instance and add it to the list
+                new_equipment = Equipment.Equipment(equipment_id, quantity, club_equipment.name)
+                self.registered_equipment.append(new_equipment)
+            # Decrease the quantity in the club's equipment list
+            club_equipment.quantity -= quantity
+        else:
+            raise Exception(f"Not enough quantity of equipment with ID {equipment_id} available in the club.")
+
+    def end_session(self):
+        # Return the equipment to the club
+        for equipment in self.registered_equipment:
+            # Find the corresponding equipment in the club's equipment list
+            club_equipment = next((eq for eq in self.club_equipment if eq.ID == equipment.ID), None)
+            if club_equipment:
+                club_equipment.quantity += equipment.quantity  # Increase the quantity in the club
+            else:
+                print(f"Equipment with ID {equipment.ID} not found in the club.")
+        self.registered_equipment = []  # Clear the registered equipment list

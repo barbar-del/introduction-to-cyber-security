@@ -1,16 +1,20 @@
+import datetime
 import Employee
 import Diver
-import Equipment
 
-# Assuming the Rank Enum and Diver class are defined as previously
-#create the instructor class that inherits from the diver class
-class Instructor(Employee, Diver):
-    def __init__(self, name, ID, age, employeeID, seniority, start_date, num_of_dives, rank, union, equipment: Equipment, locations):
-        super().__init__(name, ID, age, employeeID, seniority, start_date, num_of_dives, rank, union, equipment)
-        self.locations = locations
+class Instructor(Employee.Employee, Diver.Diver):
+    def __init__(self, name, ID, age, employeeID, num_of_dives, union):
+        super().__init__(name, ID, age, employeeID, num_of_dives, union)
+        self.start_date = datetime.date.today()  # Set the start date to today
+        self.seniority = self.calculate_seniority()
+        self.locations = []
+        
 
-    def get_fired(self):
-        return
-    
-    def update_seniority(self):
-        return
+    def calculate_seniority(self):
+        # Calculate the seniority based on the number of years since the start date
+        today = datetime.date.today()
+        return (today - self.start_date).days // 365
+
+    def quit_club(self, instructor_list):
+        # Remove the instructor from the list of instructors
+        instructor_list.remove(self)

@@ -2,13 +2,10 @@ import datetime
 import Person
 
 class Employee(Person):
-    def __init__(self, name, ID, age, employeeID, seniority, start_date):
+    def __init__(self, name, ID, age, employeeID, ):
         super().__init__(name, ID, age)
         self.employeeID = employeeID
-        self.seniority = seniority
-        if isinstance(start_date, datetime.date):
-            self.start_date = start_date
-        else:
-            raise ValueError("start_date must be a datetime.date object")
-        
+        self.seniority = 0
+        #insure that the start_date is a datetime.date object
+        self.start_date = None
         
