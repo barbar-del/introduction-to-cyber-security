@@ -1,18 +1,19 @@
 import Diver
 from DivingSession import DivingSession
 import Instructor
-
+import Equipment
 
 class Diver_Club:
-    def __init__(self,club_name):
+    def __init__(self,club_name, equipments: Equipment):
         self.name=club_name
-        self.divers = []  # List to hold diver objects
+        self.divers = []  # List to hold d  iver objects
         self.instructors = []  # List to hold instructor objects
         self.diving_sessions = []  # List to hold past DivingSession objects
+        self.equipment = equipments
 
 
 #check if the diver is already registered, if not create a new diver and add it to the divers list
-    def register_diver(self, name, id, diver_rank):
+    def register_session(self, name, id, diver_rank):
         # Create a new Diver instance and add it to the divers list
         check = self.checkForDiver(id, name, diver_rank)
         if check == True:
