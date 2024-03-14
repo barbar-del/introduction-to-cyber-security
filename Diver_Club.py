@@ -1,3 +1,4 @@
+import pickle
 import Diver
 from DivingSession import DivingSession
 import Instructor
@@ -82,3 +83,13 @@ class Diver_Club:
 
         # If the ID does not belong to any diver or instructor
         print(f"No diver or instructor with ID {ID} found in the club.")
+        
+        
+    def serialize(self):
+        with open('diving_session.pickle', 'wb') as f:
+            pickle.dump(DivingSession, f)
+
+    @staticmethod
+    def deserialize():
+        with open('diving_session.pickle', 'rb') as f:
+            return pickle.load(f)

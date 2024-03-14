@@ -1,4 +1,5 @@
 import datetime
+import pickle
 import Employee
 import Diver
 
@@ -18,3 +19,12 @@ class Instructor(Employee.Employee, Diver.Diver):
     def quit_club(self, instructor_list):
         # Remove the instructor from the list of instructors
         instructor_list.remove(self)
+
+    def serialize(self):
+        with open('instructor.pickle', 'wb') as f:
+            pickle.dump(Instructor, f)
+
+    @staticmethod
+    def deserialize():
+        with open('instructor.pickle', 'rb') as f:
+            return pickle.load(f)

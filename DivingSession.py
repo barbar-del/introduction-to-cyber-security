@@ -1,3 +1,4 @@
+import pickle
 import Instructor
 import Diver
 import Equipment
@@ -56,3 +57,13 @@ class DivingSession:
             else:
                 print(f"Equipment with ID {equipment.ID} not found in the club.")
         self.registered_equipment = []  # Clear the registered equipment list
+        
+        
+    def serialize(self):
+        with open('diving_session.pickle', 'wb') as f:
+            pickle.dump(DivingSession, f)
+
+    @staticmethod
+    def deserialize():
+        with open('diving_session.pickle', 'rb') as f:
+            return pickle.load(f)

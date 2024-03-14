@@ -2,6 +2,7 @@ from enum import Enum
 import Person
 import Equipment
 import DivingSession
+import pickle
 
 # Define an enumeration for diver ranks
 class Rank(Enum):
@@ -9,7 +10,7 @@ class Rank(Enum):
     Intermediate = 2
     Advanced = 3
     Expert = 4
-
+    
 class Diver(Person.Person):
     def __init__(self, name, ID, age, num_of_dives, union):
         super().__init__(name, ID, age)  # Call the constructor of the parent class
@@ -78,3 +79,13 @@ class Diver(Person.Person):
         new_session = DivingSession.DivingSession(diving_depth, instructor, location, self.equipment)
         self.diving_sessions.append(new_session)
         return new_session
+    
+    
+    def serialize(self):
+        with open('diver.pickle', 'wb') as f:
+            pickle.dump(Diver, f)
+
+    @staticmethod
+    def deserialize():
+        with open('diver.pickle', 'rb') as f:
+            return pickle.load(f)
